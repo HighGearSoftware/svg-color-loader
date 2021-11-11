@@ -35,20 +35,20 @@ module.exports = async function(content) {
 					type: "perItem",
 					fn: function(item) {
 						if (item.isElem(["circle", "ellipse", "line", "path", "polygon", "polyline", "rect"])) {
-							var currValue = item.attr("fill");
-	
-							var computed = fillColor;
+							const currValue = item.attr("fill");
+							let computed = fillColor;
 	
 							if (!!currValue) {
-								var currColor = chroma(currValue.value);
-	
+								const [h,s,l] = fillColor.hsl()
+								const currColorLightness = chroma(currValue.value).hsl()[2];
+
 								// Take the hue and saturation values from the requested color and then calculate the correct lightness.
 								// To do that, we need to invert the lightness value (which is 0.0 - 1.0) so that has the correct multiplicative properties:
 								//   - we want black -> color requested (identity property)
 								//   - we want white -> white (zero multiplication property)
 								// However, this requires inverting the scale because it's normally black = 0, white = 1 and we want black = 1, white = 0.
 								// Since we've inverted the scale, we have to undo that again as the final step as well.
-								computed = chroma.hsl(fillColor.hsl()[0], fillColor.hsl()[1], 1 - (fillColor.hsl()[2] * (1 - currColor.hsl()[2])));
+								computed = chroma.hsl(h, s, 1 - ((1 - l) * (1 - currColorLightness)));
 							}
 			
 							item.addAttr({ name: "fill", value: computed.hex(), prefix: "", local: "fill" });
