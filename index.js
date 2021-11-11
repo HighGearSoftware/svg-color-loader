@@ -18,7 +18,18 @@ module.exports = async function(content) {
 	
 	try {
 		var result = optimize(content.toString(), {
-			plugins: extendDefaultPlugins([
+			plugins: [
+				{ 
+					name: "preset-default",
+					overrides: {
+						inlineStyles: {
+							onlyMatchedOnce: false,
+						}
+					}
+				},
+				{
+					name: "convertStyleToAttrs",
+				},
 				{
 					name: "ReFillColors",
 					type: "perItem",
@@ -64,7 +75,7 @@ module.exports = async function(content) {
 						}
 					}
 				},
-			])
+			]
 		})
 	
 		callback(null, "module.exports = " + JSON.stringify("data:image/svg+xml;base64," + Buffer.from(result.data).toString("base64")))
