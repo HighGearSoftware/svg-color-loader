@@ -78,7 +78,7 @@ module.exports = async function(content) {
 			]
 		})
 	
-		callback(null, "module.exports = " + JSON.stringify("data:image/svg+xml;base64," + Buffer.from(result.data).toString("base64")))
+		callback(null, result.data)
 	} catch (e) {
 		callback(e)
 	}

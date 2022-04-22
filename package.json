@@ -1,6 +1,6 @@
 {
   "name": "svg-color-loader",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Recolors svg icons as part of webpack build",
   "main": "index.js",
   "dependencies": {

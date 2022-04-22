@@ -25,7 +25,7 @@ Which the build steps converts to something like this:
 
 ## SASS/SCSS
 
-For users of sass/scss we recomend using a mixin for generating the url:
+For users of sass/scss we recommend using a mixin for generating the url:
 ```scss
 @mixin icon($path-to-svg, $color) {
 	background-image: url('#{$path-to-svg}?fill=#{red($color)}|#{green($color)}|#{blue($color)}');
@@ -54,14 +54,14 @@ This also enables a really simple pattern for clickable icon:
 Include in your `package.json` using the current head commit after the `#`:
 ``` json
 {
-    "svg-color-loader": "https://github.com/SwiftSoftware-Inc/svg-color-loader.git#e7f8eb6",
+    "svg-color-loader": "https://github.com/HighGearSoftware/svg-color-loader.git#_HEAD_COMMIT_HASH_",
 }
 ```
 
 
 
 After installing, add a rule to your webpack config.
-For example, using `url-loader` as a fallback for other svg images.
+For example, using inlining:
 
 ``` js
 {
@@ -69,8 +69,8 @@ For example, using `url-loader` as a fallback for other svg images.
         {
             test: /\.svg$/,
             oneOf: [
-                { resourceQuery: /fill=.*/, use: "svg-color-loader" },
-                { use: "url-loader?limit=100000" }
+                { type: "asset/inline", resourceQuery: /fill=.*/, use: "svg-color-loader" },
+                { type: "asset/inline" } //fallback for svg images that shouldn't be recolored.
             ]
         },
         //...
